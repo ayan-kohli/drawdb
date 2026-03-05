@@ -109,6 +109,7 @@ export default function ControlPanel({ title, setTitle, lastSaved }) {
     addTable,
     updateTable,
     deleteField,
+    deleteAllFields,
     deleteTable,
     updateField,
     setRelationships,
@@ -224,6 +225,9 @@ export default function ControlPanel({ title, setTitle, lastSaved }) {
           updateTable(a.tid, {
             fields: table.fields.filter((e) => e.id !== a.fid),
           });
+        } else if (a.component === "fields_delete_all") {
+          a.data.relationship.forEach((r) => addRelationship(r, false));
+          updateTable(a.tid, { fields: a.data.fields });
         } else if (a.component === "index_add") {
           updateTable(a.tid, {
             indices: table.indices
@@ -400,6 +404,8 @@ export default function ControlPanel({ title, setTitle, lastSaved }) {
               },
             ],
           });
+        } else if (a.component === "fields_delete_all") {
+          deleteAllFields(a.tid, false);
         } else if (a.component === "index_add") {
           updateTable(a.tid, {
             indices: [
