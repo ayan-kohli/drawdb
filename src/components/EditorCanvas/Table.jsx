@@ -15,7 +15,7 @@ import {
   IconLock,
   IconUnlock,
 } from "@douyinfe/semi-icons";
-import { Popover, Tag, Button, SideSheet } from "@douyinfe/semi-ui";
+import { Popover, Tag, Button, SideSheet, Divider } from "@douyinfe/semi-ui";
 import { useLayout, useSettings, useDiagram, useSelect } from "../../hooks";
 import TableInfo from "../EditorSidePanel/TablesTab/TableInfo";
 import { useTranslation } from "react-i18next";
@@ -34,7 +34,7 @@ export default function Table({
   const [hoveredField, setHoveredField] = useState(null);
   const { database } = useDiagram();
   const { layout } = useLayout();
-  const { deleteTable, deleteField, updateTable } = useDiagram();
+  const { deleteTable, deleteField, deleteAllFields, updateTable } = useDiagram();
   const { settings } = useSettings();
   const { t } = useTranslation();
   const {
@@ -242,11 +242,22 @@ export default function Table({
                             </div>
                           )}
                         </div>
+                        <Divider margin="8px 0" />
                         <Button
                           icon={<IconDeleteStroked />}
                           type="danger"
                           block
-                          style={{ marginTop: "8px" }}
+                          style={{ marginBottom: "4px" }}
+                          onClick={() => deleteAllFields(tableData.id)}
+                          disabled={layout.readOnly || tableData.fields.length === 0}
+                        >
+                          {t("delete_all_fields")}
+                        </Button>
+                        <Button
+                          icon={<IconDeleteStroked />}
+                          type="danger"
+                          block
+                          style={{ marginTop: "4px" }}
                           onClick={() => deleteTable(tableData.id)}
                           disabled={layout.readOnly}
                         >
